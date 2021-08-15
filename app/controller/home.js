@@ -14,12 +14,12 @@ class HomeController extends Controller {
     const files = fs.readdirSync(path.join(__dirname, '../data/'), 'utf8');
     files.forEach(item => {
       const key = item.split('.')[0];
-      obj[key] = []
+      obj[key] = [];
     });
     for (const key in obj) {
       if (!ignore.includes(key)) {
-        let _data = fs.readFileSync(path.join(__dirname, `../data/${key}.js`), 'utf8', (err, data) => { });
-        _data = _data.replace(/var rankData = {datas:/, '').replace(/\,allRecords\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\}\;/, '')
+        let _data = fs.readFileSync(path.join(__dirname, `../data/${key}.js`), 'utf8');
+        _data = _data.replace(/var rankData = {datas:/, '').replace(/\,allRecords\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\,\w+\:\w+\}\;/, '');
         obj[key] = _data;
         obj[key] = JSON.parse(obj[key]);
         obj[key] = obj[key].filter((o, i) => i < top).map(item => `${item.split(',')[0]}: ${item.split(',')[1]}`);
@@ -29,7 +29,7 @@ class HomeController extends Controller {
     }
     let res = [];
     res = _.intersection(...arr);
-    console.log(`top-${top}选出基金: ${res.length}个`)
+    console.log(`top-${top}选出基金: ${res.length}个`);
     // console.log(res)
     const { ctx } = this;
     const html = [];
@@ -37,7 +37,7 @@ class HomeController extends Controller {
       html.push(`(${index + 1})    ${item}`);
     });
     // 获取post 请求参数
-    ctx.body = html.join('\n')
+    ctx.body = html.join('\n');
 
   }
 }
@@ -47,7 +47,7 @@ function formatData(data) {
   const arr = data.split('?')[1].split('&');
   const obj = {};
   arr.forEach(o => {
-    obj[o.split('=')[0]] = o.split('=')[1]
+    obj[o.split('=')[0]] = o.split('=')[1];
   });
   if (obj.ignore) {
     obj.ignore = obj.ignore.split(',');
